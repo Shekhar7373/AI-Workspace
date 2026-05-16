@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Brain, Plus } from "lucide-react";
+import { Brain, Plus, Trash2 } from "lucide-react";
 import { Button } from "../components/Button.jsx";
 import { EmptyState } from "../components/EmptyState.jsx";
 import { Panel } from "../components/Panel.jsx";
@@ -11,6 +11,7 @@ export function MemoryPage() {
   const [memories, setMemories] = useState([]);
   const [form, setForm] = useState({ type: "custom", content: "" });
   const [error, setError] = useState("");
+  const [deletingId, setDeletingId] = useState("");
 
   async function load() {
     const { data } = await api.get("/memory");
@@ -30,6 +31,19 @@ export function MemoryPage() {
       await load();
     } catch (err) {
       setError(apiMessage(err));
+    }
+  }
+
+  async function remove(id) {
+    setDeletingId(id);
+    setError("");
+    try {
+      await api.delete(`/memory/${id}`);
+      await load();
+    } catch (err) {
+      setError(apiMessage(err));
+    } finally {
+      setDeletingId("");
     }
   }
 
@@ -63,9 +77,21 @@ export function MemoryPage() {
           <div className="grid gap-3">
             {memories.map((memory) => (
               <article key={memory._id} className="rounded-md border border-black/10 p-4">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="text-sm font-bold uppercase tracking-wide text-moss">{memory.type}</p>
-                  <p className="text-xs text-black/45">{formatDate(memory.createdAt)}</p>
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-bold uppercase tracking-wide text-moss">{memory.type}</p>
+                    <p className="mt-1 text-xs text-black/45">{formatDate(memory.createdAt)}</p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    className="h-9 px-3 text-clay hover:bg-clay/10"
+                    onClick={() => remove(memory._id)}
+                    disabled={deletingId === memory._id}
+                    title="Delete memory"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    {deletingId === memory._id ? "Deleting" : "Delete"}
+                  </Button>
                 </div>
                 <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-black/70">{memory.content}</p>
               </article>

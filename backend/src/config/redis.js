@@ -1,5 +1,6 @@
 import Redis from "ioredis";
 import { env } from "./env.js";
+import { logger } from "../utils/logger.js";
 
 export const redis = new Redis(env.redisUrl, {
   maxRetriesPerRequest: null,
@@ -8,9 +9,11 @@ export const redis = new Redis(env.redisUrl, {
   retryStrategy: null
 });
 
-redis.on("connect", () => console.log("Redis connected"));
+redis.on("connect", () => logger.connected("redis", "Redis"));
 redis.on("error", (error) => {
-  console.warn("Redis unavailable:", error.code || error.name || "connection failed");
+  logger.warn("redis", "Redis unavailable", {
+    reason: error.code || error.name || "connection failed"
+  });
 });
 
 export function isRedisReady() {
@@ -22,6 +25,6 @@ export async function connectRedis() {
   try {
     await redis.connect();
   } catch (error) {
-    console.warn("Redis setup skipped:", error.message);
+    logger.skipped("redis", "Redis setup", { reason: error.message });
   }
 }

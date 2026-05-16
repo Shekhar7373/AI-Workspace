@@ -1,6 +1,7 @@
 import { Queue, Worker } from "bullmq";
 import { isRedisReady, redis } from "../config/redis.js";
 import { processDocumentById } from "../services/documentService.js";
+import { logger } from "../utils/logger.js";
 
 let documentQueue;
 
@@ -28,21 +29,29 @@ export async function addDocumentProcessingJob(documentId) {
 
 export function startDocumentWorker() {
   if (!isRedisReady()) {
-    console.warn("Document worker skipped: Redis is not available.");
+    logger.skipped("documents", "Document worker", { reason: "Redis is not available" });
     return null;
   }
 
   const worker = new Worker("document-processing", async (job) => {
+    logger.info("documents", "Processing document job", {
+      jobId: job.id,
+      documentId: job.data.documentId
+    });
     await processDocumentById(job.data.documentId);
   }, { connection: redis });
 
   worker.on("completed", (job) => {
-    console.log(`Document job ${job.id} completed`);
+    logger.info("documents", "Document job completed", { jobId: job.id });
   });
 
   worker.on("failed", (job, error) => {
-    console.warn(`Document job ${job?.id} failed:`, error.message);
+    logger.warn("documents", "Document job failed", {
+      jobId: job?.id,
+      reason: error.message
+    });
   });
 
+  logger.ready("documents", "Document worker");
   return worker;
 }

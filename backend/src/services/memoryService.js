@@ -1,6 +1,7 @@
 import { isRedisReady, redis } from "../config/redis.js";
 import { Memory } from "../models/Memory.js";
-import { storeMemoryVector, semanticSearch } from "./vectorService.js";
+import { deleteVectorPoint, storeMemoryVector, semanticSearch } from "./vectorService.js";
+import { ApiError } from "../utils/apiError.js";
 
 export async function getRecentMessages(userId, limit = 12) {
   if (!isRedisReady()) return [];
@@ -32,6 +33,19 @@ export async function createMemory({ userId, type = "custom", content, source = 
 
 export async function listMemories(userId) {
   return Memory.find({ userId }).sort({ createdAt: -1 });
+}
+
+export async function deleteMemory(userId, memoryId) {
+  const memory = await Memory.findOne({ _id: memoryId, userId });
+  if (!memory) throw new ApiError(404, "Memory not found.");
+
+  await Memory.deleteOne({ _id: memory._id });
+  await deleteVectorPoint({
+    collection: "memory_vectors",
+    id: memory.embeddingId
+  }).catch(() => {});
+
+  return memory;
 }
 
 export async function findRelevantMemories(userId, query, limit = 5) {

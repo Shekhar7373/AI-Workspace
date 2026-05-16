@@ -8,6 +8,7 @@ import {
   Home,
   LogOut,
   Network,
+  Workflow,
   Search,
   Settings,
   Sparkles
@@ -26,6 +27,7 @@ const nav = [
   { to: "/coding", label: "Coding", icon: Code2 },
   { to: "/memory", label: "Memory", icon: Network },
   { to: "/agents", label: "Agents", icon: Bot },
+  { to: "/workflows", label: "Workflows", icon: Workflow },
   { to: "/settings", label: "Settings", icon: Settings }
 ];
 

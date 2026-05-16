@@ -1,6 +1,6 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
-import { chat, summarize } from "../services/aiService.js";
+import { chat, chatWithTools, summarize } from "../services/aiService.js";
 import { searchDocumentChunks } from "../services/documentService.js";
 import { generateStudyPlan } from "../services/taskService.js";
 
@@ -8,6 +8,13 @@ export const chatController = asyncHandler(async (req, res) => {
   const { message, chatId, documentId, mode } = req.body;
   if (!message) throw new ApiError(400, "Message is required.");
   const result = await chat({ userId: req.user._id, message, chatId, documentId, mode });
+  res.json({ success: true, ...result });
+});
+
+export const chatWithToolsController = asyncHandler(async (req, res) => {
+  const { message, chatId, documentId, mode } = req.body;
+  if (!message) throw new ApiError(400, "Message is required.");
+  const result = await chatWithTools({ userId: req.user._id, message, chatId, documentId, mode });
   res.json({ success: true, ...result });
 });
 

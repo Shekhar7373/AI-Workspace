@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   askDocumentController,
   chatController,
+  chatWithToolsController,
   searchController,
   studyPlanController,
   summaryController
@@ -12,6 +13,7 @@ export const aiRoutes = Router();
 
 aiRoutes.use(protect);
 aiRoutes.post("/chat", chatController);
+aiRoutes.post("/chat-with-tools", chatWithToolsController);
 aiRoutes.post("/ask-document", askDocumentController);
 aiRoutes.post("/generate-summary", summaryController);
 aiRoutes.post("/search", searchController);

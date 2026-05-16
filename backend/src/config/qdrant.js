@@ -1,5 +1,6 @@
 import { QdrantClient } from "@qdrant/js-client-rest";
 import { env } from "./env.js";
+import { logger } from "../utils/logger.js";
 
 export const qdrant = new QdrantClient({
   url: env.qdrantUrl,
@@ -42,5 +43,8 @@ export async function ensureQdrantCollections() {
     });
   }));
 
-  console.log("Qdrant collections ready");
+  logger.ready("qdrant", "Qdrant collections", {
+    collections,
+    dimension: env.hfEmbeddingDimension
+  });
 }

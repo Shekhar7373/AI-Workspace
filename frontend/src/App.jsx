@@ -4,6 +4,7 @@ import { ProtectedRoute } from "./layouts/ProtectedRoute.jsx";
 import { AgentsPage } from "./pages/AgentsPage.jsx";
 import { AuthPage } from "./pages/AuthPage.jsx";
 import { ChatPage } from "./pages/ChatPage.jsx";
+import { CodingPage } from "./pages/CodingPage.jsx";
 import { DashboardPage } from "./pages/DashboardPage.jsx";
 import { DocumentsPage } from "./pages/DocumentsPage.jsx";
 import { MemoryPage } from "./pages/MemoryPage.jsx";
@@ -11,6 +12,7 @@ import { SearchPage } from "./pages/SearchPage.jsx";
 import { SettingsPage } from "./pages/SettingsPage.jsx";
 import { StudyPage } from "./pages/StudyPage.jsx";
 import { TasksPage } from "./pages/TasksPage.jsx";
+import { WorkflowsPage } from "./pages/WorkflowsPage.jsx";
 
 export default function App() {
   return (
@@ -26,9 +28,10 @@ export default function App() {
           <Route path="search" element={<SearchPage />} />
           <Route path="tasks" element={<TasksPage />} />
           <Route path="study" element={<StudyPage />} />
-          <Route path="coding" element={<ChatPage mode="coding" />} />
+          <Route path="coding" element={<CodingPage />} />
           <Route path="memory" element={<MemoryPage />} />
           <Route path="agents" element={<AgentsPage />} />
+          <Route path="workflows" element={<WorkflowsPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Route>

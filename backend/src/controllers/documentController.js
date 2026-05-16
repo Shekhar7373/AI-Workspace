@@ -8,6 +8,7 @@ import {
   listDocuments
 } from "../services/documentService.js";
 import { addDocumentProcessingJob } from "../jobs/documentQueue.js";
+import { logger } from "../utils/logger.js";
 
 export const uploadDocumentController = asyncHandler(async (req, res) => {
   if (!req.file) throw new ApiError(400, "Document file is required.");
@@ -21,7 +22,16 @@ export const uploadDocumentController = asyncHandler(async (req, res) => {
 
   try {
     await addDocumentProcessingJob(document._id);
+    logger.info("documents", "Document queued for processing", {
+      documentId: document._id.toString(),
+      title: document.title,
+      userId: req.user._id.toString()
+    });
   } catch {
+    logger.warn("documents", "Queue unavailable, processing document inline", {
+      documentId: document._id.toString(),
+      title: document.title
+    });
     await processDocument(document);
   }
 

@@ -8,6 +8,9 @@ import { memoryRoutes } from "./routes/memoryRoutes.js";
 import { taskRoutes } from "./routes/taskRoutes.js";
 import { agentRoutes } from "./routes/agentRoutes.js";
 import { dashboardRoutes } from "./routes/dashboardRoutes.js";
+import { integrationRoutes } from "./routes/integrationRoutes.js";
+import { workflowRoutes } from "./routes/workflowRoutes.js";
+import { telegramRoutes } from "./interfaces/telegram/telegram.routes.js";
 import { errorHandler, notFound } from "./middlewares/errorHandler.js";
 
 export const app = express();
@@ -32,6 +35,9 @@ app.use("/api/memory", memoryRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/agents", agentRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/integrations", integrationRoutes);
+app.use("/api/workflows", workflowRoutes);
+app.use("/api/telegram", telegramRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

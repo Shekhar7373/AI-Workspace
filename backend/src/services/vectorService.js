@@ -72,3 +72,11 @@ export async function semanticSearch({ collection, userId, query, limit = 5, ext
     }
   });
 }
+
+export async function deleteVectorPoint({ collection, id }) {
+  if (!id) return;
+  await qdrant.delete(collection, {
+    wait: true,
+    points: [id]
+  });
+}

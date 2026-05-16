@@ -20,5 +20,15 @@ export const env = {
   hfEmbeddingDimension: Number(process.env.HF_EMBEDDING_DIMENSION || 384),
   qdrantUrl: process.env.QDRANT_URL || "http://localhost:6333",
   qdrantApiKey: process.env.QDRANT_API_KEY || "",
-  redisUrl: process.env.REDIS_URL || "redis://localhost:6379"
+  redisUrl: process.env.REDIS_URL || "redis://localhost:6379",
+  googleClientId: process.env.GOOGLE_CLIENT_ID || "",
+  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+  googleRedirectUri: process.env.GOOGLE_REDIRECT_URI || "http://localhost:5000/api/integrations/google/callback",
+  googleTokenEncryptionKey: process.env.GOOGLE_TOKEN_ENCRYPTION_KEY || "",
+  telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || "",
+  telegramWebhookSecret: process.env.TELEGRAM_WEBHOOK_SECRET || "",
+  telegramWebhookUrl: process.env.TELEGRAM_WEBHOOK_URL || "",
+  telegramLinkCodeTtlMinutes: Number(process.env.TELEGRAM_LINK_CODE_TTL_MINUTES || 10),
+  telegramRateLimitWindowMs: Number(process.env.TELEGRAM_RATE_LIMIT_WINDOW_MS || 60000),
+  telegramRateLimitMax: Number(process.env.TELEGRAM_RATE_LIMIT_MAX || 20)
 };
