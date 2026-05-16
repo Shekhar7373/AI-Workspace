@@ -1,56 +1,121 @@
-# AI Workspace for Students & Developers
-## Complete Full-Stack AI SaaS Project Blueprint
+# AI Workspace for Students and Developers
 
-# Project Vision
+A full-stack AI productivity workspace built for students, developers, and self-learners. The platform combines AI chat, document intelligence, semantic search, memory, study planning, coding assistance, workflow automation, and external integrations into one modern web application.
 
-Build a production-style AI-powered workspace platform inspired by:
-- Notion AI
-- Lindy AI
-- ChatGPT
-- Obsidian
-- GitHub Copilot
+This project is designed as a production-style MERN application with a React frontend, Express backend, MongoDB persistence, Redis caching/queues, Qdrant vector search, Socket.IO realtime updates, local HuggingFace embeddings, and Groq-powered AI responses.
 
-The application should help students and developers:
-- upload notes/documents
-- chat with AI
-- search semantically
-- store AI memory
-- automate workflows
-- manage study tasks
-- use AI coding assistance
-- interact with AI agents
+## Table of Contents
 
-This is NOT just a chatbot.
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Architecture](#architecture)
+- [Prerequisites](#prerequisites)
+- [Environment Variables](#environment-variables)
+- [Installation and Setup](#installation-and-setup)
+- [Running the Application](#running-the-application)
+- [API Overview](#api-overview)
+- [Usage Guide](#usage-guide)
+- [Future Scope](#future-scope)
+- [License](#license)
 
-This is:
-- an AI operating system for students
-- a memory-driven AI workspace
-- a semantic knowledge platform
-- an AI productivity system
+## Overview
 
----
+AI Workspace is more than a basic chatbot. It is an AI-assisted knowledge and productivity system where users can:
 
-# PRIMARY GOALS
+- Chat with an AI assistant in realtime.
+- Upload documents and ask questions about their content.
+- Search notes and uploaded material semantically.
+- Store user preferences, memories, learning patterns, and useful context.
+- Generate study plans and manage tasks.
+- Use a coding assistant for debugging, explanation, and code generation.
+- Run AI agents and workflow tools.
+- Connect external services such as Google/Gmail and Telegram.
 
-The application must support:
+The goal is to create a unified workspace inspired by tools like Notion AI, ChatGPT, Obsidian, Lindy, and GitHub Copilot.
 
-1. AI Chat Assistant
-2. Document Upload & AI Q&A
-3. Semantic Search
-4. AI Memory System
-5. AI Study Planner
-6. AI Coding Assistant
-7. AI Agents & Workflows
-8. Task Management
-9. Realtime Streaming Responses
-10. Persistent User Context
+## Features
 
----
+### Authentication
 
-# TECH STACK
+- User registration and login
+- JWT access tokens
+- Refresh token support
+- Protected API routes
+- Authenticated frontend routes
 
-## Frontend
-- ReactJS
+### AI Chat
+
+- Context-aware AI chat
+- Socket.IO streaming support
+- Persistent conversations
+- Markdown-friendly responses
+- Coding and learning assistance
+
+### Document Intelligence
+
+- Upload PDF, DOCX, and TXT files
+- Extract and clean document text
+- Split content into chunks
+- Generate local embeddings with HuggingFace Transformers
+- Store document vectors in Qdrant
+- Ask AI questions based on uploaded documents
+
+### Semantic Search
+
+- Meaning-based search instead of simple keyword search
+- Qdrant-powered vector retrieval
+- Search across uploaded document chunks and stored AI memory
+
+### AI Memory
+
+- Short-term memory through Redis
+- Long-term memory through MongoDB
+- Vector memory through Qdrant
+- Stores preferences, useful facts, study habits, and recurring context
+
+### Study Planner and Tasks
+
+- Create and manage study tasks
+- Track task priority, deadline, and status
+- Generate AI-assisted study plans
+- View progress through the dashboard
+
+### Coding Assistant
+
+- Explain code
+- Debug errors
+- Generate snippets
+- Help with JavaScript, Python, Java, C++, and general programming concepts
+
+### Agents and Workflows
+
+- AI agent execution endpoints
+- Tool registry and tool executor structure
+- Local workflow service
+- Workflow routes and controllers
+
+### Integrations
+
+- Google OAuth support
+- Gmail service layer
+- Telegram bot interface and webhook support
+
+### Dashboard
+
+- Central workspace overview
+- Recent documents
+- Pending tasks
+- AI insights
+- Memory highlights
+- Quick navigation to major tools
+
+## Tech Stack
+
+### Frontend
+
+- React 19
 - Vite
 - Tailwind CSS
 - React Router
@@ -60,7 +125,8 @@ The application must support:
 - Framer Motion
 - Lucide React
 
-## Backend
+### Backend
+
 - Node.js
 - Express.js
 - MongoDB
@@ -71,628 +137,328 @@ The application must support:
 - Socket.IO
 - Multer
 
-## AI Stack
-- OpenAI API
-- Model: gpt-4.1-mini
-- Embedding Model: text-embedding-3-small
-- LangChain
+### AI and Vector Stack
+
+- Groq SDK
+- Groq chat model: `llama-3.3-70b-versatile`
+- HuggingFace Transformers
+- Local embedding model: `Xenova/all-MiniLM-L6-v2`
 - Qdrant Vector Database
 
----
-
-# SYSTEM ARCHITECTURE
-
-Frontend (React)
-        ↓
-Backend API (Node.js + Express)
-        ↓
-Core Services Layer
- ├── Authentication Service
- ├── AI Chat Service
- ├── RAG Service
- ├── Memory Service
- ├── Agent Service
- ├── Search Service
- ├── Task Service
- ├── Notification Service
- └── File Processing Service
-        ↓
-Databases
- ├── MongoDB
- ├── Qdrant Vector DB
- └── Redis
-
----
-
-# COMPLETE FEATURE LIST
-
-# FEATURE 1 — AUTHENTICATION
-
-Implement:
-- Register
-- Login
-- Logout
-- JWT Authentication
-- Refresh Tokens
-- Protected Routes
-- User Profiles
-
-User schema:
-- name
-- email
-- password
-- role
-- preferences
-- createdAt
-
----
-
-# FEATURE 2 — AI CHAT ASSISTANT
-
-Features:
-- realtime streaming responses
-- persistent conversations
-- context-aware AI
-- markdown support
-- code formatting
-- message history
-- typing animation
-
-The AI assistant should:
-- answer questions
-- explain concepts
-- help students learn
-- assist developers
-- remember context
-
----
-
-# FEATURE 3 — DOCUMENT UPLOAD & AI Q&A
-
-Supported file types:
-- PDF
-- DOCX
-- TXT
-
-Pipeline:
-1. Upload document
-2. Extract text
-3. Clean text
-4. Split into chunks
-5. Generate embeddings
-6. Store vectors in Qdrant
-7. User asks question
-8. Retrieve relevant chunks
-9. Send context to OpenAI
-10. Generate answer
-
-Chunking strategy:
-- chunk size: 500 tokens
-- overlap: 100 tokens
-
-Document schema:
-- userId
-- title
-- subject
-- tags
-- fileUrl
-- createdAt
-
----
+## Project Structure
+
+```text
+.
++-- backend/
+|   +-- src/
+|   |   +-- ai/
+|   |   |   +-- agents/
+|   |   |   +-- embeddings/
+|   |   |   +-- prompts/
+|   |   |   +-- rag/
+|   |   |   +-- tools/
+|   |   |   +-- workflows/
+|   |   +-- config/
+|   |   +-- controllers/
+|   |   +-- interfaces/
+|   |   +-- jobs/
+|   |   +-- middlewares/
+|   |   +-- models/
+|   |   +-- routes/
+|   |   +-- services/
+|   |   +-- sockets/
+|   |   +-- utils/
+|   |   +-- app.js
+|   |   +-- server.js
+|   +-- .env.example
+|   +-- package.json
+|
++-- frontend/
+|   +-- src/
+|   |   +-- components/
+|   |   +-- layouts/
+|   |   +-- pages/
+|   |   +-- services/
+|   |   +-- store/
+|   |   +-- utils/
+|   |   +-- App.jsx
+|   |   +-- main.jsx
+|   |   +-- styles.css
+|   +-- .env.example
+|   +-- package.json
+|
++-- readme.md
++-- .gitignore
+```
+
+## Architecture
+
+```text
+React Frontend
+    |
+    | REST API + Socket.IO
+    v
+Express Backend
+    |
+    |-- Auth Service
+    |-- AI Service
+    |-- Document Service
+    |-- Memory Service
+    |-- Task Service
+    |-- Agent Service
+    |-- Workflow Service
+    |-- Integration Services
+    |
+    |-- MongoDB: users, documents, chats, tasks, memories
+    |-- Redis: cache, short-term memory, queues
+    |-- Qdrant: vector search for documents and memory
+    |-- Groq: AI chat and reasoning
+    |-- HuggingFace Transformers: local embeddings
+```
+
+## Prerequisites
+
+Install the following before running the project:
+
+- Node.js 18 or later
+- npm
+- MongoDB local server or MongoDB Atlas account
+- Docker Desktop
+- Git
+- Groq API key
+
+Optional, depending on the integrations you want to use:
+
+- Google Cloud OAuth credentials
+- Telegram bot token
+- ngrok or another public tunnel for Telegram webhook testing
+
+## Environment Variables
+
+### Backend
+
+Create a backend environment file:
+
+```powershell
+cd backend
+Copy-Item .env.example .env
+```
+
+Update `backend/.env`:
+
+```env
+PORT=5000
+CLIENT_URL=http://localhost:5173
+CLIENT_URLS=http://localhost:5173,http://localhost:5174
 
-# FEATURE 4 — AI MEMORY SYSTEM
+MONGO_URI=mongodb://127.0.0.1:27017/ai_workspace
+JWT_SECRET=change_this_access_secret
+JWT_REFRESH_SECRET=change_this_refresh_secret
+ACCESS_TOKEN_EXPIRES_IN=50m
+REFRESH_TOKEN_EXPIRES_IN=7d
 
-The AI must remember:
-- user preferences
-- study habits
-- weak subjects
-- coding interests
-- past projects
-- previous conversations
-- long-term goals
+GROQ_API_KEY=your_groq_api_key
+GROQ_CHAT_MODEL=llama-3.3-70b-versatile
 
-Implement 3 memory types:
+HF_EMBEDDING_MODEL=Xenova/all-MiniLM-L6-v2
+HF_EMBEDDING_DIMENSION=384
 
-## A. Short-Term Memory
-Store:
-- current session
-- recent chat history
+QDRANT_URL=http://localhost:6333
+QDRANT_API_KEY=
+REDIS_URL=redis://localhost:6379
 
-Use Redis.
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REDIRECT_URI=http://localhost:5000/api/integrations/google/callback
+GOOGLE_TOKEN_ENCRYPTION_KEY=change_this_long_random_secret
 
----
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_WEBHOOK_SECRET=change_this_random_webhook_secret
+TELEGRAM_WEBHOOK_URL=https://your-ngrok-domain.ngrok-free.app/api/telegram/webhook
+TELEGRAM_LINK_CODE_TTL_MINUTES=10
+TELEGRAM_RATE_LIMIT_WINDOW_MS=60000
+TELEGRAM_RATE_LIMIT_MAX=20
+```
 
-## B. Long-Term Memory
-Store:
-- user profile insights
-- persistent preferences
-- learning patterns
+### Frontend
 
-Use MongoDB.
+Create a frontend environment file:
 
----
+```powershell
+cd frontend
+Copy-Item .env.example .env
+```
 
-## C. Vector Memory
-Store:
-- semantic memories
-- embeddings of important information
+Update `frontend/.env` if your backend URL is different:
 
-Use Qdrant.
+```env
+VITE_API_URL=http://localhost:5000/api
+VITE_SOCKET_URL=http://localhost:5000
+```
 
----
+## Installation and Setup
 
-# FEATURE 5 — SEMANTIC SEARCH
+Clone the repository:
 
-Users should search using meaning, not keywords.
+```bash
+git clone <your-repository-url>
+cd <your-repository-folder>
+```
 
-Example:
-"Show networking notes about TCP"
+Install backend dependencies:
 
-The system should:
-- generate embedding
-- search Qdrant
-- return semantically related content
+```bash
+cd backend
+npm install
+```
 
----
+Install frontend dependencies:
 
-# FEATURE 6 — AI STUDY PLANNER
+```bash
+cd ../frontend
+npm install
+```
 
-Features:
-- generate study schedules
-- create revision plans
-- track deadlines
-- monitor progress
-- recommend study improvements
+Start Qdrant:
 
-Task schema:
-- userId
-- title
-- description
-- deadline
-- priority
-- status
+```bash
+docker run -p 6333:6333 qdrant/qdrant
+```
 
----
+Start Redis:
 
-# FEATURE 7 — AI CODING ASSISTANT
+```bash
+docker run -p 6379:6379 redis
+```
 
-Features:
-- explain code
-- debug errors
-- generate snippets
-- DSA help
-- project recommendations
-- code formatting
-- syntax highlighting
+Make sure MongoDB is running locally or update `MONGO_URI` with your MongoDB Atlas connection string.
 
-Use Monaco Editor.
+## Running the Application
 
-The assistant should:
-- explain step-by-step
-- teach beginners
-- support JavaScript, Python, C++, Java
+Start the backend:
 
----
+```bash
+cd backend
+npm run dev
+```
 
-# FEATURE 8 — AI AGENTS
+The backend runs at:
 
-Implement AI agents with:
-- planning
-- memory
-- tool usage
-- workflow execution
+```text
+http://localhost:5000
+```
 
-Agent loop:
-Observe
-→ Plan
-→ Use Tools
-→ Save Memory
-→ Respond
+Health check:
 
-Example agents:
-- Study Agent
-- Reminder Agent
-- Notes Summarizer
-- Coding Tutor
-- Research Agent
+```text
+GET http://localhost:5000/api/health
+```
 
----
+Start the frontend in a second terminal:
 
-# FEATURE 9 — REALTIME SYSTEM
+```bash
+cd frontend
+npm run dev
+```
 
-Use Socket.IO for:
-- streaming AI responses
-- live notifications
-- realtime updates
+The frontend runs at:
 
----
+```text
+http://localhost:5173
+```
 
-# FEATURE 10 — DASHBOARD
+## API Overview
 
-Dashboard should display:
-- recent documents
-- pending tasks
-- AI insights
-- study progress
-- memory highlights
-- quick actions
+### Auth
 
----
-
-# DATABASE DESIGN
-
-# MongoDB Collections
-
-## USERS
-
-Fields:
-- _id
-- name
-- email
-- password
-- role
-- preferences
-- createdAt
-
----
-
-## DOCUMENTS
-
-Fields:
-- _id
-- userId
-- title
-- subject
-- tags
-- fileUrl
-- createdAt
-
----
-
-## CHATS
-
-Fields:
-- _id
-- userId
-- messages
-- summary
-- createdAt
-
----
-
-## TASKS
-
-Fields:
-- _id
-- userId
-- title
-- description
-- deadline
-- status
-- priority
-
----
-
-## MEMORIES
-
-Fields:
-- _id
-- userId
-- type
-- content
-- embeddingId
-
----
-
-# VECTOR DATABASE DESIGN
-
-Create Qdrant collections:
-1. document_chunks
-2. memory_vectors
-3. conversation_vectors
-
-Store:
-- embeddings
-- metadata
-- chunk text
-- references
-
----
-
-# FOLDER STRUCTURE
-
-# BACKEND
-
-backend/
-├── src/
-│   ├── controllers/
-│   ├── routes/
-│   ├── models/
-│   ├── middlewares/
-│   ├── services/
-│   ├── utils/
-│   ├── sockets/
-│   ├── jobs/
-│   ├── ai/
-│   │   ├── embeddings/
-│   │   ├── rag/
-│   │   ├── memory/
-│   │   ├── agents/
-│   │   ├── prompts/
-│   │   └── tools/
-│   ├── config/
-│   └── app.js
-
----
-
-# FRONTEND
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── layouts/
-│   ├── hooks/
-│   ├── services/
-│   ├── store/
-│   ├── context/
-│   ├── utils/
-│   ├── ai/
-│   ├── editor/
-│   └── App.jsx
-
----
-
-# API DESIGN
-
-# AUTH
-
+```text
 POST /api/auth/register
 POST /api/auth/login
 POST /api/auth/logout
-GET /api/auth/profile
+GET  /api/auth/profile
+```
 
----
+### Documents
 
-# DOCUMENTS
-
-POST /api/documents/upload
-GET /api/documents
-GET /api/documents/:id
+```text
+POST   /api/documents/upload
+GET    /api/documents
+GET    /api/documents/:id
 DELETE /api/documents/:id
+```
 
----
+### AI
 
-# AI
-
+```text
 POST /api/ai/chat
 POST /api/ai/ask-document
 POST /api/ai/generate-summary
 POST /api/ai/search
+```
 
----
+### Memory
 
-# MEMORY
-
-GET /api/memory
+```text
+GET  /api/memory
 POST /api/memory/store
+```
 
----
+### Tasks
 
-# TASKS
-
-POST /api/tasks
-GET /api/tasks
-PUT /api/tasks/:id
+```text
+POST   /api/tasks
+GET    /api/tasks
+PUT    /api/tasks/:id
 DELETE /api/tasks/:id
+```
 
----
+### Agents, Dashboard, Workflows, Integrations
 
-# OPENAI CONFIGURATION
+```text
+POST /api/agents/run
+GET  /api/dashboard
+```
 
-Use:
-- gpt-4.1-mini for chat
-- text-embedding-3-small for embeddings
+Additional backend route groups are available under:
 
-Example configuration:
+```text
+/api/workflows
+/api/integrations
+/api/telegram
+```
 
-import OpenAI from "openai";
+## Usage Guide
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+1. Register a new account from the frontend.
+2. Log in to access the protected workspace.
+3. Open the dashboard to view recent activity, tasks, documents, and AI insights.
+4. Use AI Chat for general learning, reasoning, and development help.
+5. Upload PDF, DOCX, or TXT documents from the Documents page.
+6. Ask document-specific questions after upload and processing.
+7. Use Semantic Search to find related information by meaning.
+8. Create tasks and generate study plans from the Study Planner and Tasks pages.
+9. Use the Coding Assistant for debugging, explanations, and code snippets.
+10. Store important context in Memory so future AI responses can become more personalized.
+11. Configure optional Google/Gmail and Telegram integrations if needed.
 
----
+## Notes
 
-# RAG FLOW
+- The first document upload or semantic-search operation may take longer because the local HuggingFace embedding model is downloaded.
+- Embeddings are generated locally; a paid embedding API is not required.
+- If Qdrant collections were created with a different embedding dimension, delete and recreate the collections before uploading new documents.
+- Keep `.env` files private and never commit API keys or secrets.
 
-User uploads document
-        ↓
-Extract text
-        ↓
-Chunk text
-        ↓
-Generate embeddings
-        ↓
-Store in Qdrant
-        ↓
-User asks question
-        ↓
-Generate query embedding
-        ↓
-Search similar vectors
-        ↓
-Retrieve top chunks
-        ↓
-Build prompt
-        ↓
-Generate AI response
+## Future Scope
 
----
-
-# MEMORY FLOW
-
-Before every AI response:
-1. Retrieve recent conversation
-2. Retrieve relevant memories
-3. Retrieve relevant document chunks
-4. Merge all context
-5. Generate final response
-
----
-
-# IMPORTANT ENGINEERING RULES
-
-1. Use service-based architecture
-2. Separate AI logic from routes
-3. Use async queues for heavy tasks
-4. Store embeddings ONLY in Qdrant
-5. Use Redis for queues/cache
-6. Stream AI responses
-7. Keep prompts modular
-8. Use chunk overlap
-9. Implement scalable folder structure
-10. Validate all file uploads
-11. Implement permission-aware retrieval
-12. Use environment variables properly
-
----
-
-# REQUIRED SOFTWARE
-
-- Node.js
-- VS Code
-- Docker Desktop
-- MongoDB Compass
-- Postman
-
----
-
-# REQUIRED SERVICES
-
-Run Qdrant:
-docker run -p 6333:6333 qdrant/qdrant
-
-Run Redis:
-docker run -p 6379:6379 redis
-
----
-
-# REQUIRED BACKEND PACKAGES
-
-npm install express mongoose cors dotenv bcryptjs jsonwebtoken multer axios
-
-npm install openai langchain @langchain/openai @langchain/community @langchain/core
-
-npm install @qdrant/js-client-rest
-
-npm install ioredis bullmq
-
-npm install socket.io
-
-npm install pdf-parse mammoth
-
----
-
-# REQUIRED FRONTEND PACKAGES
-
-npm install react-router-dom axios zustand socket.io-client
-
-npm install framer-motion lucide-react
-
-npm install -D tailwindcss postcss autoprefixer
-
----
-
-# ENVIRONMENT VARIABLES
-
-PORT=5000
-
-MONGO_URI=
-
-JWT_SECRET=
-
-OPENAI_API_KEY=
-
-QDRANT_URL=http://localhost:6333
-
-REDIS_URL=redis://localhost:6379
-
----
-
-# CORE PAGES
-
-- Dashboard
-- AI Chat
-- Documents
-- Study Planner
-- Tasks
-- Coding Assistant
-- Memory Insights
-- Settings
-
----
-
-# UI REQUIREMENTS
-
-Use:
-- modern SaaS design
-- glassmorphism
-- responsive layout
-- dark/light mode
-- sidebar navigation
-- clean dashboard cards
-- loading animations
-- streaming chat UI
-
----
-
-# FUTURE FEATURES
-
-- Voice AI
-- OCR
+- Voice-based AI interaction
+- OCR for scanned documents and images
 - Browser extension
-- Mobile app
-- Collaborative workspace
+- Mobile application
+- Collaborative workspaces
 - AI whiteboard
-- Offline AI support
+- Offline/local model support
+- More workflow tools and external app integrations
 
----
+## License
 
-# DEVELOPMENT PHASES
-
-# Phase 1
-- Auth
-- Dashboard
-- Basic AI chat
-
-# Phase 2
-- Document upload
-- RAG system
-- Semantic search
-
-# Phase 3
-- AI memory
-- Persistent context
-
-# Phase 4
-- AI agents
-- Workflow automation
-
-# Phase 5
-- Advanced AI features
-
----
-
-# FINAL GOAL
-
-Build a production-style AI workspace platform that combines:
-- Notion AI style document intelligence
-- Lindy AI style memory & agents
-- AI coding assistant
-- semantic knowledge search
-- persistent AI memory
-- student productivity workflows
-
-The application should feel like:
-Notion + ChatGPT + Lindy + Obsidian + GitHub Copilot
+This project is currently intended for academic and learning purposes. Add a license file before using or distributing it publicly.
